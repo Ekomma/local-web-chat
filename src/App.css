@@ -1,38 +1,145 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.title {
+  font-size: 1.5em;
+  color: orange;
+  margin-bottom: 5vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+header {
+  width: 70%;
+  margin: 20px auto;
+  height: 20px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.red-text {
+  color: red;
+  width: 100%;
+  text-align: center;
+}
+.chatbox {
+  height: 80vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 50vw;
+  background-color: #eee;
+  border: 1px solid orange;
+  border-radius: 5px;
+}
+
+.chat-content {
+  height: 75%;
+  width: 80%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid orange;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.chat-controls {
+  margin: 20px auto;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+
+input {
+  width: 80%;
+  height: 30px;
+  padding: 10px;
+  border: 1px solid orange;
+}
+
+button {
+  width: 70px;
+  cursor: pointer;
+}
+
+.speech-bubble {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+.left {
+  justify-content: flex-start;
+}
+
+.right {
+  justify-content: flex-end;
+}
+
+.avatar {
+  margin-right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  background-color: orange;
+  color: #fff;
 }
 
-.App-link {
-  color: #61dafb;
+.avar-right {
+  order: 2;
+  margin-right: 0px;
+  margin-left: 20px;
+}
+.text {
+  padding: 5px;
+  background-color: orange;
+  color: #fff;
+  position: relative;
+  transform-style: preserve-3d;
+  width: 60%;
+  height: fit-content;
+  text-align: left;
+  padding-left: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.left-hook::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -15px;
+  width: 0; 
+  height: 0; 
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid orange;
+  transform: translateZ(-1px);
+}
+
+.right-hook::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -15px;
+  width: 0; 
+  height: 0; 
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid orange;
+  transform: translateZ(-1px);
+}
+
+.load-more {
+  width: 60%;
+  background: transparent;
+  color: #333;
+  border: 1px solid orange
 }
