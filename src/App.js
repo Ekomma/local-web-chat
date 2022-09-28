@@ -11,10 +11,25 @@ function App() {
 
   let bottomRef = useRef(null);
 
-  useEffect(() => {
+  const getStoredMessages = () => {
     const storedMessages = localStorage.getItem("messages");
     if (storedMessages?.length > 0)
       setStateMessages(JSON.parse(storedMessages));
+  }
+
+  useEffect(() => {
+    const listernId = window.addEventListener(
+      "storage",
+      () => getStoredMessages()
+    );
+
+    return () => {
+      window.removeEventListener("storage", listernId);
+    };
+  }, []);
+
+  useEffect(() => {
+    getStoredMessages()
   }, []);
 
   useEffect(() => {
