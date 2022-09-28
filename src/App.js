@@ -11,18 +11,15 @@ function App() {
 
   let bottomRef = useRef(null);
 
+  useEffect(() => {
+    const storedMessages = localStorage.getItem("messages");
+    if (storedMessages?.length > 0)
+      setStateMessages(JSON.parse(storedMessages));
+  }, []);
 
   useEffect(() => {
-   const storedMessages = localStorage.getItem("messages")
-   if(storedMessages?.length > 0) setStateMessages(JSON.parse(storedMessages))
-  }, [])
-  
-  useEffect(() => {
     // 👇️ scroll to bottom every time messages change
-    console.log("called")
-    console.log({bottomRef})
-    bottomRef.current.scrollTop = bottomRef.current?.scrollHeight
-    // bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    bottomRef.current.scrollTop = bottomRef.current?.scrollHeight;
   }, [text, stateMessages]);
 
   useEffect(() => {
@@ -98,17 +95,15 @@ function App() {
           Welcome to the chatbox <strong>{name.toLocaleUpperCase()}</strong>
         </header>
         <div className="chat-content" ref={bottomRef}>
-          {stateMessages?.length > 0 && stateMessages.map((message, idx) => 
-            <SpeechBubble
-              key={idx}
-              dir={message.name === name.toLowerCase() ? "right" : "left"}
-              text={message.message}
-              userName={message.name}
-            />
-          )
-          }
-          {/* scroll to bottom div */}
-          {/* <div ref={bottomRef}></div> */}
+          {stateMessages?.length > 0 &&
+            stateMessages.map((message, idx) => (
+              <SpeechBubble
+                key={idx}
+                dir={message.name === name.toLowerCase() ? "right" : "left"}
+                text={message.message}
+                userName={message.name}
+              />
+            ))}
         </div>
         {alert && <p className="red-text">{alert}</p>}
         <div className="chat-controls">
