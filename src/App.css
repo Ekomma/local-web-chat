@@ -18,6 +18,11 @@ header {
   height: 20px;
 }
 
+.red-text {
+  color: red;
+  width: 100%;
+  text-align: center;
+}
 .chatbox {
   height: 80vh;
   display: flex;
