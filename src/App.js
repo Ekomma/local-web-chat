@@ -61,7 +61,7 @@ function App() {
         } else {
           localStorage.setItem("names", JSON.stringify([name.toLowerCase()]));
         }
-        sessionStorage.setItem("name", name);
+        sessionStorage.setItem("name", name.toLowerCase());
       }
     }
   }, [name]);
@@ -80,8 +80,9 @@ function App() {
       localStorage.setItem(
         "messages",
         JSON.stringify([{ message, name: name.toLowerCase() }])
-      );
-    }
+        );
+      }
+      setStateMessages((prevMessages) => ([...prevMessages, { message, name: name.toLowerCase() }]))
   };
 
   const handleSubmit = () => {
