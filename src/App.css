@@ -107,6 +107,8 @@ button {
   transform-style: preserve-3d;
   width: 60%;
   height: fit-content;
+  text-align: left;
+  padding-left: 10px;
 }
 
 .left-hook::after {
