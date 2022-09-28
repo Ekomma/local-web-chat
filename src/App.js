@@ -7,13 +7,23 @@ function App() {
   const [name, setName] = useState("");
   const [text, setText] = useState("");
   const [alert, setAlert] = useState("");
+  const [stateMessages, setStateMessages] = useState([]);
 
   let bottomRef = useRef(null);
 
+
+  useEffect(() => {
+   const storedMessages = localStorage.getItem("messages")
+   if(storedMessages?.length > 0) setStateMessages(JSON.parse(storedMessages))
+  }, [])
+  
   useEffect(() => {
     // 👇️ scroll to bottom every time messages change
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [text]);
+    console.log("called")
+    console.log({bottomRef})
+    bottomRef.current.scrollTop = bottomRef.current?.scrollHeight
+    // bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [text, stateMessages]);
 
   useEffect(() => {
     const sessionName = sessionStorage.getItem("name");
@@ -87,24 +97,18 @@ function App() {
         <header className="App-header">
           Welcome to the chatbox <strong>{name.toLocaleUpperCase()}</strong>
         </header>
-        <div className="chat-content">
-          {/* sample */}
-          <SpeechBubble
-            dir="left"
-            text="Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you?Hello, how are you?Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you?Hello, how are you?"
-            userName={name}
-          />
-          <SpeechBubble
-            dir="right"
-            text="Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you?Hello, how are you?Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you?Hello, how are you?"
-            userName={name}
-          />
-          <SpeechBubble
-            dir="left"
-            text="Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you?Hello, how are you?Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you?Hello, how are you?"
-            userName={name}
-          />
-          <div ref={bottomRef}></div>
+        <div className="chat-content" ref={bottomRef}>
+          {stateMessages?.length > 0 && stateMessages.map((message, idx) => 
+            <SpeechBubble
+              key={idx}
+              dir={message.name === name.toLowerCase() ? "right" : "left"}
+              text={message.message}
+              userName={message.name}
+            />
+          )
+          }
+          {/* scroll to bottom div */}
+          {/* <div ref={bottomRef}></div> */}
         </div>
         {alert && <p className="red-text">{alert}</p>}
         <div className="chat-controls">
