@@ -26,14 +26,20 @@ header {
   width: 50vw;
   background-color: #eee;
   border: 1px solid orange;
+  border-radius: 5px;
 }
 
 .chat-content {
   height: 75%;
   width: 80%;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: #fff;
   border: 1px solid orange;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .chat-controls {
@@ -53,4 +59,73 @@ input {
 button {
   width: 70px;
   cursor: pointer;
+}
+
+.speech-bubble {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+.left {
+  justify-content: flex-start;
+}
+
+.right {
+  justify-content: flex-end;
+}
+
+.avatar {
+  margin-right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: orange;
+  color: #fff;
+}
+
+.avar-right {
+  order: 2;
+  margin-right: 0px;
+  margin-left: 20px;
+}
+.text {
+  padding: 5px;
+  background-color: orange;
+  color: #fff;
+  position: relative;
+  transform-style: preserve-3d;
+  width: 60%;
+  height: fit-content;
+}
+
+.left-hook::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -15px;
+  width: 0; 
+  height: 0; 
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid orange;
+  transform: translateZ(-1px);
+}
+
+.right-hook::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -15px;
+  width: 0; 
+  height: 0; 
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid orange;
+  transform: translateZ(-1px);
 }

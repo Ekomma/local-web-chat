@@ -1,9 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './App.css';
+import { SpeechBubble } from './components/SpeechBubble';
 
 function App() {
   const [name, setName] = useState("")
   const [text, setText] = useState("")
+
+  let bottomRef = useRef(null)
+
+  useEffect(() => {
+    // 👇️ scroll to bottom every time messages change
+    bottomRef.current?.scrollIntoView({behavior: 'smooth'});
+  }, [text]);
 
   const handleSubmit = () => {
     const enteredText = text.trim()
@@ -29,6 +37,23 @@ function App() {
           Welcome to the chatbox <strong>{name.toLocaleUpperCase()}</strong>
         </header>
         <div className='chat-content'>
+          {/* sample bubbles */}
+          {/* <SpeechBubble 
+            dir='left'
+            text='Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you?Hello, how are you?Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you?Hello, how are you?'
+            userName={name}
+          />
+          <SpeechBubble 
+            dir='right'
+            text='Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you?Hello, how are you?Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you?Hello, how are you?'
+            userName={name}
+          />
+          <SpeechBubble 
+            dir='left'
+            text='Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you?Hello, how are you?Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you?Hello, how are you?'
+            userName={name}
+          /> */}
+          <div ref={bottomRef}></div>
         </div>
           <div className='chat-controls'>
             <input 
