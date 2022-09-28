@@ -8,12 +8,9 @@ function App() {
   const [text, setText] = useState("");
   const [alert, setAlert] = useState("");
   const [stateMessages, setStateMessages] = useState([]);
-  const [offSet, setOffset] = useState(
-    sessionStorage.getItem("offset") || 0
-  );
+  const [offSet, setOffset] = useState(Number(sessionStorage.getItem("offset")) || 0);
 
   let bottomRef = useRef(null);
-
   const getStoredMessages = () => {
     const storedMessages = localStorage.getItem("messages");
     if (storedMessages?.length > 0)
@@ -32,7 +29,7 @@ function App() {
 
   useEffect(() => {
     getStoredMessages();
-    setOffset(stateMessages.length - 25)
+    if(!sessionStorage.getItem("offset")) setOffset(stateMessages.length - 25);
   }, [stateMessages.length]);
 
   useEffect(() => {
@@ -69,8 +66,6 @@ function App() {
     }
   }, [name]);
 
-  console.log({ offSet });
-
   const storeMessage = (message) => {
     if (!name) {
       setAlert("Cannot store message without a user");
@@ -106,6 +101,14 @@ function App() {
     setText("");
   };
 
+  const handleLoadMore = () => {
+    setOffset((prevOffset) => {
+      const newOffset = prevOffset - 25
+      sessionStorage.setItem("offset", newOffset);
+      return newOffset
+    });
+  }
+
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       handleSubmit();
@@ -120,7 +123,10 @@ function App() {
         </header>
         <div className="chat-content" ref={bottomRef}>
           {stateMessages?.length > 25 && offSet > 0 && (
-            <button className="load-more" onClick={() => setOffset((prevOffset) => prevOffset - 25)}>
+            <button
+              className="load-more"
+              onClick={handleLoadMore}
+            >
               load more...
             </button>
           )}
