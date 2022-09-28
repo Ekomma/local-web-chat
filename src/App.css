@@ -136,3 +136,10 @@ button {
   border-top: 20px solid orange;
   transform: translateZ(-1px);
 }
+
+.load-more {
+  width: 60%;
+  background: transparent;
+  color: #333;
+  border: 1px solid orange
+}

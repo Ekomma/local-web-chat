@@ -8,19 +8,18 @@ function App() {
   const [text, setText] = useState("");
   const [alert, setAlert] = useState("");
   const [stateMessages, setStateMessages] = useState([]);
+  const [offSet, setOffset] = useState(Number(sessionStorage.getItem("offset")) || 0);
 
   let bottomRef = useRef(null);
-
   const getStoredMessages = () => {
     const storedMessages = localStorage.getItem("messages");
     if (storedMessages?.length > 0)
       setStateMessages(JSON.parse(storedMessages));
-  }
+  };
 
   useEffect(() => {
-    const listernId = window.addEventListener(
-      "storage",
-      () => getStoredMessages()
+    const listernId = window.addEventListener("storage", () =>
+      getStoredMessages()
     );
 
     return () => {
@@ -29,8 +28,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    getStoredMessages()
-  }, []);
+    getStoredMessages();
+    if(!sessionStorage.getItem("offset")) setOffset(stateMessages.length - 25);
+  }, [stateMessages.length]);
 
   useEffect(() => {
     // 👇️ scroll to bottom every time messages change
@@ -80,9 +80,12 @@ function App() {
       localStorage.setItem(
         "messages",
         JSON.stringify([{ message, name: name.toLowerCase() }])
-        );
-      }
-      setStateMessages((prevMessages) => ([...prevMessages, { message, name: name.toLowerCase() }]))
+      );
+    }
+    setStateMessages((prevMessages) => [
+      ...prevMessages,
+      { message, name: name.toLowerCase() },
+    ]);
   };
 
   const handleSubmit = () => {
@@ -98,6 +101,14 @@ function App() {
     setText("");
   };
 
+  const handleLoadMore = () => {
+    setOffset((prevOffset) => {
+      const newOffset = prevOffset - 25
+      sessionStorage.setItem("offset", newOffset);
+      return newOffset
+    });
+  }
+
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       handleSubmit();
@@ -111,15 +122,25 @@ function App() {
           Welcome to the chatbox <strong>{name.toLocaleUpperCase()}</strong>
         </header>
         <div className="chat-content" ref={bottomRef}>
+          {stateMessages?.length > 25 && offSet > 0 && (
+            <button
+              className="load-more"
+              onClick={handleLoadMore}
+            >
+              load more...
+            </button>
+          )}
           {stateMessages?.length > 0 &&
-            stateMessages.map((message, idx) => (
-              <SpeechBubble
-                key={idx}
-                dir={message.name === name.toLowerCase() ? "right" : "left"}
-                text={message.message}
-                userName={message.name}
-              />
-            ))}
+            stateMessages
+              .slice(offSet > 0 ? offSet : 0)
+              .map((message, idx) => (
+                <SpeechBubble
+                  key={idx}
+                  dir={message.name === name.toLowerCase() ? "right" : "left"}
+                  text={message.message}
+                  userName={message.name}
+                />
+              ))}
         </div>
         {alert && <p className="red-text">{alert}</p>}
         <div className="chat-controls">
