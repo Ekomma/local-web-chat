@@ -18,9 +18,7 @@ function App() {
   };
 
   useEffect(() => {
-    const listernId = window.addEventListener("storage", () =>
-      getStoredMessages()
-    );
+    const listernId = window.addEventListener("storage", getStoredMessages);
 
     return () => {
       window.removeEventListener("storage", listernId);
@@ -114,6 +112,7 @@ function App() {
       handleSubmit();
     }
   };
+  
   return (
     <div className="App">
       <h1 className="title">Simple Chat</h1>
