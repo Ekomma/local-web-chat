@@ -8,7 +8,9 @@ function App() {
   const [text, setText] = useState("");
   const [alert, setAlert] = useState("");
   const [stateMessages, setStateMessages] = useState([]);
-  const [offSet, setOffset] = useState(Number(sessionStorage.getItem("offset")) || 0);
+  const [offSet, setOffset] = useState(
+    Number(sessionStorage.getItem("offset")) || 0
+  );
 
   let bottomRef = useRef(null);
   const getStoredMessages = () => {
@@ -18,9 +20,7 @@ function App() {
   };
 
   useEffect(() => {
-    const listernId = window.addEventListener("storage", () =>
-      getStoredMessages()
-    );
+    const listernId = window.addEventListener("storage", getStoredMessages);
 
     return () => {
       window.removeEventListener("storage", listernId);
@@ -29,7 +29,7 @@ function App() {
 
   useEffect(() => {
     getStoredMessages();
-    if(!sessionStorage.getItem("offset")) setOffset(stateMessages.length - 25);
+    if (!sessionStorage.getItem("offset")) setOffset(stateMessages.length - 25);
   }, [stateMessages.length]);
 
   useEffect(() => {
@@ -103,17 +103,18 @@ function App() {
 
   const handleLoadMore = () => {
     setOffset((prevOffset) => {
-      const newOffset = prevOffset - 25
+      const newOffset = prevOffset - 25;
       sessionStorage.setItem("offset", newOffset);
-      return newOffset
+      return newOffset;
     });
-  }
+  };
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       handleSubmit();
     }
   };
+
   return (
     <div className="App">
       <h1 className="title">Simple Chat</h1>
@@ -123,10 +124,7 @@ function App() {
         </header>
         <div className="chat-content" ref={bottomRef}>
           {stateMessages?.length > 25 && offSet > 0 && (
-            <button
-              className="load-more"
-              onClick={handleLoadMore}
-            >
+            <button className="load-more" onClick={handleLoadMore}>
               load more...
             </button>
           )}
